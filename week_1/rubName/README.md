@@ -1,0 +1,1 @@
+This code creates 50 player that all have a randomized score count assosiated with them. 

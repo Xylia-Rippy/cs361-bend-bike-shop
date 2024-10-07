@@ -1,0 +1,1 @@
+This is given code from the project. It had renamed sections to better fit the meaning of gathering data from the bikes. 
