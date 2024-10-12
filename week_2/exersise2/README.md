@@ -1,0 +1,1 @@
+This code is the updated code that will properly borg and reverse the name. This won't have any random misshaps and uses a way to have the user use their own name they want to provide.
