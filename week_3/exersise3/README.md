@@ -1,0 +1,1 @@
+This code is made for checking and removing or adding students to a schedule. 
