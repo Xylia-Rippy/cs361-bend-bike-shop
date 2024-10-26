@@ -1,0 +1,1 @@
+This code is a managing system for a random project. The code was re-formatted with chapters 7-8 of the book "clean code".
