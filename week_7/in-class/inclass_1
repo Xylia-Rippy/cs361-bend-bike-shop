@@ -1,0 +1,157 @@
+#Main setups
+starting_events = [
+  "some volcano:volcano:40.12120:-121.3455",
+  "some earthquake:earthquake:40.51230:-121.23425",
+  "another earthquake:earthquake:39.23890:-120.23985",
+  "yet another earthquake:earthquake:39.23223:-120.23125",
+  "another volcano:volcano:43.32890:-122.3289",
+  "a geyser:geyser:39.23223:-120.23125"
+]
+
+
+
+=begin
+  This class uses lat and log to caculate a distance and uses a R value that is the radious of the earth in m.
+  Earth_R= earth radious in m
+  lat 1 = latitude of the first point
+  lat 2 = latitude of the second point
+  lon 1 = longitude of the first point
+  lon 2 = longitude of the second point
+
+
+=end
+class Distance
+  Earth_R = 6378100  # radius of the earth in m
+  def self.distance(lat1, lon1, lat2, lon2)
+    # https://stackoverflow.com/a/27943
+
+    dLat = self.deg2rad(lat2 - lat1)
+    dLon = self.deg2rad(lon2 - lon1)
+    a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2)
+    c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    Earth_R * c  # distance in m
+  end
+
+  def self.deg2rad(d)
+    d * Math::PI / 180
+  end
+end
+
+#Finding near events pulling lat and lon and a max distance
+class FindNearEvents
+  def initialize(eventList)
+    @eventList = eventList
+  end
+
+
+  def findEventsNear(lat, lon, maxDist=5000)
+    events = []
+
+    @eventList.each { |event|
+      name, type, elat, elon = event.split(":")
+      elat = elat.to_f
+      elon = elon.to_f
+
+      if Distance.distance(lat, lon, elat, elon) < maxDist
+        events << event
+      end
+    }
+    
+    events
+  end
+
+  def findEarthquakesNear(cityName)
+    cityRecord = nil
+
+    @eventList.each { |event|
+      name, type, elat, elon = event.split(":")
+      elat = elat.to_f
+      elon = elon.to_f
+
+      if type == "city" && name == cityName
+        cityRecord = event
+      end
+    }
+
+    if cityRecord.nil?
+      return nil
+    end
+
+    name, type, clat, clon = cityRecord.split(":")
+    clat = clat.to_f
+    clon = clon.to_f
+
+    events = []
+
+    @eventList.each { |event|
+      name, type, elat, elon = event.split(":")
+      elat = elat.to_f
+      elon = elon.to_f
+
+      if type == "earthquake"
+        if Distance.distance(elat, elon, clat, clon) < 5000
+          events << event
+        end
+      end
+    }
+
+    events
+  end
+end
+
+#add the specific events
+class AddEvent
+  def initialize(eventList)
+    @eventList = eventList
+  end
+  
+  def addVolcanoEvent(name, lat, lon)
+    @eventList << "#{name}:volcano:#{lat}:#{lon}"
+  end
+
+  def addEarthquakeEvent(name, lat, lon)
+    @eventList << "#{name}:earthquake:#{lat}:#{lon}"
+  end
+
+  def addGeyser(name, lat, lon)
+    @eventList << "#{name}:geyser:#{lat}:#{lon}"
+  end
+
+  def addHotspring(name, lat, lon)
+    @eventList << "#{name}:hotspring:#{lat}:#{lon}"
+  end
+
+  def addFumarole(name, lat, lon)
+    @eventList << "#{name}:fumarole:#{lat}:#{lon}"
+  end
+
+  def addCity(name, lat, lon)
+    @eventList << "#{name}:city:#{lat}:#{lon}"
+  end
+end
+
+
+class EventManager #bad name
+  attr_reader :eventList
+  def initialize(eventList)
+    @eventList = eventList
+  end
+end
+em = EventManager.new(starting_events)
+adder = AddEvent.new(em.eventList)
+
+adder.addHotspring("my favorite hotspring", 461231, -115.23234)
+adder.addCity("Cityton", 40.5232, -121.23453)
+
+finder = FindNearEvents.new(em.eventList)
+
+x = finder.findEventsNear(40.5, -121.2, 163000)
+pp x
+
+puts "------------------------"
+
+x = finder.findEarthquakesNear("Cityton")
+pp x
+#---------------------------------------------------------------------------------
