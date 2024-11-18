@@ -27,51 +27,51 @@ def thirdpartydependency(a, b, c)
 end
 
 #given functoins
-def myfunction1()
+def myfunction1(a, b, c)
   return thirdpartydependency(a, b, c)
 end
 
-def myfunction2()
+def myfunction2(a, b, c)
   return thirdpartydependency(a, b, c)
 end
 
-def myfunction3()
+def myfunction3(a, b, c)
   return thirdpartydependency(a, b, c)
 end
 
-def myfunction4()
+def myfunction4(a, b, c)
   return thirdpartydependency(a, b, c)
 end
 
-def myfunction5()
+def myfunction5(a, b, c)
   return thirdpartydependency(a, b, c)
 end
 
-def myfunction6()
+def myfunction6(a, b, c)
   return thirdpartydependency(a, b, c)
 end
 
-def myfunction7()
+def myfunction7(a, b, c)
   return thirdpartydependency(a, b, c)
 end
 
-def myfunction8()
+def myfunction8(a, b, c)
   return thirdpartydependency(a, b, c)
 end
 
-def myfunction9()
+def myfunction9(a, b, c)
   return thirdpartydependency(a, b, c)
 end
 
-def myfunction10()
+def myfunction10(a, b, c)
   return thirdpartydependency(a, b, c)
 end
 
-def myfunction11()
+def myfunction11(a, b, c)
   return thirdpartydependency(a, b, c)
 end
 
-def myfunction12()
+def myfunction12(a, b, c)
   return thirdpartydependency(a, b, c)
 end
 
